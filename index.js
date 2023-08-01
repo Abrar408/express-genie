@@ -10,6 +10,8 @@ const {
   updateApp,
   createConstants,
   updateConstants,
+  addScripts,
+  addDependencies,
 } = require("./utility/createFiles");
 
 const checkFileExists = require("./utility/checkFileExists");
@@ -22,6 +24,8 @@ if (!entityName) {
   createEnv();
   createMiddleware();
   createConstants();
+  addScripts();
+  addDependencies();
 } else {
   if (!checkFileExists("./app.js")) return;
 

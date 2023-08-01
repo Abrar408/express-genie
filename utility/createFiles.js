@@ -1,146 +1,84 @@
 const fs = require("fs");
-const ejs = require("ejs");
+const path = require("path");
 const pluralize = require("pluralize");
 
 const capitalize = require("./capitalize");
 const createOrUpdateFile = require("./createOrUpdateFile");
+const createContent = require("./createContent");
 
 const validations = ["create", "update"];
 const routeStringToSearch = ['");', ");"];
 
 const createApp = () => {
-  const appStarterTemplate = fs.readFileSync(
-    `${__dirname}/../template/app.template.ejs`,
-    "utf8"
-  );
-  const appTemplate = ejs.render(appStarterTemplate);
-  createOrUpdateFile("./app.js", appTemplate);
+  const content = createContent(`${__dirname}/../template/app.template.ejs`);
+  createOrUpdateFile("./app.js", content);
   console.log(`app created successfully.`);
 };
 const createServer = () => {
-  const serverStarterTemplate = fs.readFileSync(
-    `${__dirname}/../template/server.template.ejs`,
-    "utf8"
-  );
-  const serverTemplate = ejs.render(serverStarterTemplate);
-  createOrUpdateFile("./server.js", serverTemplate);
+  const content = createContent(`${__dirname}/../template/server.template.ejs`);
+  createOrUpdateFile("./server.js", content);
   console.log(`server created successfully.`);
 };
 const createEnv = () => {
-  const envStarterTemplate = fs.readFileSync(
-    `${__dirname}/../template/env.template.ejs`,
-    "utf8"
-  );
-  const envTemplate = ejs.render(envStarterTemplate);
-  createOrUpdateFile("./.env", envTemplate);
-  createOrUpdateFile("./.env.development", envTemplate);
-  createOrUpdateFile("./.env.staging", envTemplate);
+  const content = createContent(`${__dirname}/../template/env.template.ejs`);
+  createOrUpdateFile("./.env", content);
+  createOrUpdateFile("./.env.development", content);
+  createOrUpdateFile("./.env.staging", content);
   console.log(`envs created successfully.`);
 };
 const createMiddleware = () => {
-  const authRequiredStarterTemplate = fs.readFileSync(
-    `${__dirname}/../template/authRequiredMiddleware.template.ejs`,
-    "utf8"
+  const content = createContent(
+    `${__dirname}/../template/validateRequestMiddleware.template.ejs`
   );
-  const authRequiredTemplate = ejs.render(authRequiredStarterTemplate);
-  createOrUpdateFile(
-    "./middleware/authRequired.middleware.js",
-    authRequiredTemplate
-  );
-
-  const guestAccessStarterTemplate = fs.readFileSync(
-    `${__dirname}/../template/guestAccessMiddleware.template.ejs`,
-    "utf8"
-  );
-  const guestAccessTemplate = ejs.render(guestAccessStarterTemplate);
-  createOrUpdateFile(
-    "./middleware/guestAccess.middleware.js",
-    guestAccessTemplate
-  );
-
-  const validateRequestStarterTemplate = fs.readFileSync(
-    `${__dirname}/../template/validateRequestMiddleware.template.ejs`,
-    "utf8"
-  );
-  const validateRequestTemplate = ejs.render(validateRequestStarterTemplate);
-  createOrUpdateFile(
-    "./middleware/validateRequest.middleware.js",
-    validateRequestTemplate
-  );
+  createOrUpdateFile("./middleware/validateRequest.middleware.js", content);
   console.log(`middleware created successfully.`);
 };
 const createConstants = () => {
-  const constantStarterTemplate = fs.readFileSync(
-    `${__dirname}/../template/constant.template.ejs`,
-    "utf8"
+  const content = createContent(
+    `${__dirname}/../template/constant.template.ejs`
   );
-  const constantTemplate = ejs.render(constantStarterTemplate);
-  createOrUpdateFile("./constants/responses.js", constantTemplate);
+  createOrUpdateFile("./constants/responses.js", content);
   console.log(`constants created successfully.`);
 };
 const createRoute = (entityName) => {
-  const starterTemplate = fs.readFileSync(
+  const content = createContent(
     `${__dirname}/../template/route.template.ejs`,
-    "utf8"
+    entityName
   );
-  const template = ejs.render(starterTemplate, {
-    entityName,
-    capitalize,
-    plural: pluralize.plural,
-  });
-
-  createOrUpdateFile(`routes/${entityName}/${entityName}.routes.js`, template);
+  createOrUpdateFile(`routes/${entityName}/${entityName}.routes.js`, content);
   console.log(`${entityName} routes created successfully.`);
 };
 const createController = (entityName) => {
-  const starterTemplate = fs.readFileSync(
+  const content = createContent(
     `${__dirname}/../template/controller.template.ejs`,
-    "utf8"
+    entityName
   );
-  const template = ejs.render(starterTemplate, {
-    entityName,
-    capitalize,
-    plural: pluralize.plural,
-  });
-
   createOrUpdateFile(
     `controllers/${entityName}/${entityName}.controller.js`,
-    template
+    content
   );
   console.log(`${entityName} controllers created successfully.`);
 };
 const createService = (entityName) => {
-  const starterTemplate = fs.readFileSync(
+  const content = createContent(
     `${__dirname}/../template/service.template.ejs`,
-    "utf8"
+    entityName
   );
-  const template = ejs.render(starterTemplate, {
-    entityName,
-    capitalize,
-    plural: pluralize.plural,
-  });
-
   createOrUpdateFile(
     `services/${entityName}/${entityName}.service.js`,
-    template
+    content
   );
   console.log(`${entityName} services created successfully.`);
 };
 const createValidation = (entityName) => {
   validations.forEach((validation) => {
-    const starterTemplate = fs.readFileSync(
+    const content = createContent(
       `${__dirname}/../template/${validation}Validation.template.ejs`,
-      "utf8"
+      entityName
     );
-    const template = ejs.render(starterTemplate, {
-      entityName,
-      capitalize,
-      plural: pluralize.plural,
-    });
-
     createOrUpdateFile(
       `validations/${pluralize.plural(entityName)}/${validation}.validation.js`,
-      template
+      content
     );
   });
   console.log(`${entityName} validations created successfully.`);
@@ -182,6 +120,50 @@ const updateConstants = (entityName) => {
     firstPart + additionalLine + secondPart
   );
 };
+const addScripts = () => {
+  const userPackageJsonPath = path.join(__dirname, "./../../../package.json");
+  const userPackageJson = require(userPackageJsonPath);
+
+  if (!userPackageJson.scripts) {
+    userPackageJson.scripts = {};
+  }
+
+  userPackageJson.scripts["dev"] =
+    "set NODE_ENV=development&& nodemon server.js";
+  userPackageJson.scripts["stage"] = "set NODE_ENV=staging&& nodemon server.js";
+  userPackageJson.scripts["deploy"] = "node server.js";
+
+  fs.writeFileSync(
+    userPackageJsonPath,
+    JSON.stringify(userPackageJson, null, 2)
+  );
+};
+const addDependencies = () => {
+  const userPackageJsonPath = path.join(__dirname, "./../../../package.json");
+  const userPackageJson = require(userPackageJsonPath);
+
+  if (!userPackageJson.dependencies) {
+    userPackageJson.dependencies = {};
+  }
+
+  if (!userPackageJson.devDependencies) {
+    userPackageJson.devDependencies = {};
+  }
+
+  userPackageJson.dependencies["joi"] = "^17.9.1";
+  userPackageJson.dependencies["express"] = "^4.18.2";
+  userPackageJson.dependencies["cors"] = "^2.8.5";
+  userPackageJson.dependencies["dotenv"] = "^16.0.3";
+  userPackageJson.dependencies["mysql2"] = "^3.1.2";
+
+  userPackageJson.devDependencies["nodemon"] = "^2.0.22";
+
+  fs.writeFileSync(
+    userPackageJsonPath,
+    JSON.stringify(userPackageJson, null, 2)
+  );
+};
+
 module.exports = {
   createApp,
   createServer,
@@ -194,4 +176,6 @@ module.exports = {
   createValidation,
   updateApp,
   updateConstants,
+  addScripts,
+  addDependencies,
 };
