@@ -12,6 +12,7 @@ const {
   updateConstants,
   addScripts,
   addDependencies,
+  createConfig,
 } = require("./utility/createFiles");
 
 const checkFileExists = require("./utility/checkFileExists");
@@ -23,6 +24,7 @@ if (!entityName) {
   createServer();
   createEnv();
   createMiddleware();
+  createConfig();
   createConstants();
   addScripts();
   addDependencies();

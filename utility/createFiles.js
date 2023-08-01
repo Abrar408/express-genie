@@ -33,6 +33,13 @@ const createMiddleware = () => {
   createOrUpdateFile("./middleware/validateRequest.middleware.js", content);
   console.log(`middleware created successfully.`);
 };
+const createConfig = () => {
+  const content = createContent(
+    `${__dirname}/../template/dbConfig.template.ejs`
+  );
+  createOrUpdateFile("./config/db.config.js", content);
+  console.log(`middleware created successfully.`);
+};
 const createConstants = () => {
   const content = createContent(
     `${__dirname}/../template/constant.template.ejs`
@@ -169,6 +176,7 @@ module.exports = {
   createServer,
   createEnv,
   createMiddleware,
+  createConfig,
   createConstants,
   createController,
   createRoute,
