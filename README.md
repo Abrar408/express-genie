@@ -63,7 +63,7 @@ Run npm install to install the dependencies
 ```
 
 Now you are good to go and have a basic express structure ready.
-To create new records and all its necessaties run npm run setup [entityName] _without square brackets_
+To create new routes and all its necessities run npm run setup [entityName] _without square brackets_
 
 ```bash
   npm run setup [your entity name here]
