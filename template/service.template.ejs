@@ -1,0 +1,94 @@
+const pool = require("../../config/db.config");
+
+const getAll<%= capitalize(plural(entityName)) %> = async () => {
+  const [results] = await pool.query(
+    "SELECT * FROM <%= entityName %>"
+  );
+
+  return results;
+};
+
+const getSingle<%= capitalize(entityName) %> = async (id) => {
+  const [[result]] = await pool.query(
+    "SELECT * FROM <%= entityName %> WHERE id = ?",
+    [id]
+  );
+
+  return result;
+};
+
+const create<%= capitalize(entityName) %> = async (body) => {
+  const { name } = body;
+
+  const conn = await pool.getConnection();
+
+  try {
+    await conn.beginTransaction();
+
+    const [{insertId}] = await pool.query(
+        `INSERT INTO <%= entityName %> (name) VALUES (?)`,
+        [name]
+    );
+
+    await conn.commit();
+    return insertId;
+  } catch (error) {
+    await conn.rollback();
+    throw error;
+  } finally {
+    conn.release();
+  }
+};
+
+const update<%= capitalize(entityName) %> = async (id, body) => {
+  const { name } = body;
+
+  const conn = await pool.getConnection();
+
+  try {
+    await conn.beginTransaction();
+
+    const [result] = await pool.query(
+        `UPDATE <%= entityName %> SET name = ? WHERE id = ?`,
+        [name, id]
+    );
+
+    await conn.commit();
+    return result.affectedRows;
+  } catch (error) {
+    await conn.rollback();
+    throw error;
+  } finally {
+    conn.release();
+  }
+};
+
+const delete<%= capitalize(entityName) %> = async (id) => {
+  const conn = await pool.getConnection();
+
+  try {
+    await conn.beginTransaction();
+
+    const [result] = await pool.query(
+        `DELETE FROM <%= entityName %> WHERE id = ?`,
+        [id]
+    );
+
+    await conn.commit();
+
+    return result.affectedRows;
+  } catch (error) {
+    await conn.rollback();
+    throw error;
+  } finally {
+    conn.release();
+  }
+};
+
+module.exports = {
+  getAll<%= capitalize(plural(entityName)) %>,
+  getSingle<%= capitalize(entityName) %>,
+  create<%= capitalize(entityName) %>,
+  update<%= capitalize(entityName) %>,
+  delete<%= capitalize(entityName) %>,
+};

@@ -1,0 +1,30 @@
+const responses = {    
+    ERROR_RESPONSES: {
+      INVALID_REQUEST: "Request invalid.",
+      TOKEN_NOT_PROVIDED: "Token not provided.",
+      INVALID_TOKEN: "Token invalid or expired.",
+      CREATE_UNSUCCESSFUL: "Could not create new record.",
+      UPDATE_UNSUCCESSFUL: "Could not update record.",
+      DELETE_UNSUCCESSFUL: "Could not delete record.",
+    },
+    genericResponse: (
+      status,
+      success,
+      data = null,
+      error = null,
+      message = null
+    ) => {
+      return {
+        status: {
+          code: status,
+          success: success,
+        },
+        data: data,
+        error: error,
+        message: message,
+      };
+    },
+  };
+  
+  module.exports = responses;
+  

@@ -1,0 +1,148 @@
+const <%= entityName %>Service = require("../../services/<%= entityName %>/<%= entityName %>.service");
+
+const {
+    <%= entityName.toUpperCase() %>_RESPONSES,
+    genericResponse,
+} = require("../../constants/responses");
+
+const getAll<%= capitalize(plural(entityName)) %> = async (req, res) => {
+  try {
+    const result = await <%= entityName %>Service.getAll<%= capitalize(plural(entityName)) %>();
+
+    if (!result.length) {
+      const response = genericResponse(
+        404,
+        false,
+        null,
+        <%= entityName.toUpperCase() %>_RESPONSES.NOT_FOUND
+      );
+      return res.status(response.status.code).json(response);
+    }
+
+    const response = genericResponse(200, true, result);
+    return res.status(response.status.code).json(response);
+  } catch (error) {
+    const response = genericResponse(500, false, null, error.message);
+    return res.status(response.status.code).json(response);
+  }
+};
+
+const getSingle<%= capitalize(entityName) %> = async (req, res) => {
+  const id = req.params.<%= entityName %>Id;
+
+  try {
+    const <%= entityName %> = await <%= entityName %>Service.getAll<%= capitalize(plural(entityName)) %>(id);
+
+    if (!<%= entityName %>) {
+      const response = genericResponse(
+        404,
+        false,
+        null,
+        <%= entityName.toUpperCase() %>_RESPONSES.NOT_FOUND
+      );
+      return res.status(response.status.code).json(response);
+    }
+
+    const response = genericResponse(200, true, <%= entityName %>);
+    return res.status(response.status.code).json(response);
+  } catch (error) {
+    const response = genericResponse(500, false, null, error.message);
+    return res.status(response.status.code).json(response);
+  }
+};
+
+const create<%= capitalize(entityName) %> = async (req, res) => {
+  try {
+    const <%= entityName %> = await <%= entityName %>Service.create<%= capitalize(entityName) %>(req.body);
+
+    if (!<%= entityName %>) {
+      const response = genericResponse(
+        204,
+        false,
+        null,
+        ERROR_RESPONSES.CREATE_UNSUCCESSFUL
+      );
+      return res.status(response.status.code).json(response);
+    }
+
+    const response = genericResponse(
+      201,
+      true,
+      null,
+      null,
+      <%= entityName.toUpperCase() %>_RESPONSES.CREATE_SUCCESS
+    );
+    return res.status(response.status.code).json(response);
+  } catch (error) {
+    const response = genericResponse(500, false, null, error.message);
+    return res.status(response.status.code).json(response);
+  }
+};
+
+const update<%= capitalize(entityName) %> = async (req, res) => {
+  const id = req.params.<%= entityName %>Id;
+
+  try {
+    const hasUpdated = await <%= entityName %>Service.update<%= capitalize(entityName) %>(id, req.body);
+
+    if (!hasUpdated) {
+      const response = genericResponse(
+        204,
+        false,
+        null,
+        ERROR_RESPONSES.UPDATE_UNSUCCESSFUL
+      );
+      return res.status(response.status.code).json(response);
+    }
+
+    const response = genericResponse(
+      200,
+      true,
+      null,
+      null,
+      <%= entityName.toUpperCase() %>_RESPONSES.UPDATE_SUCCESS
+    );
+    return res.status(response.status.code).json(response);
+  } catch (error) {
+    const response = genericResponse(500, false, null, error.message);
+    return res.status(response.status.code).json(response);
+  }
+};
+
+const delete<%= capitalize(entityName) %> = async (req, res) => {
+  const id = req.params.<%= entityName %>Id;
+
+  try {
+    const hasDeleted = await <%= entityName %>Service.delete<%= capitalize(entityName) %>(id);
+
+    if (!hasDeleted) {
+      const response = genericResponse(
+        204,
+        false,
+        null,
+        ERROR_RESPONSES.DELETE_UNSUCCESSFUL
+      );
+      return res.status(response.status.code).json(response);
+    }
+
+    const response = genericResponse(
+      200,
+      true,
+      null,
+      null,
+      <%= entityName.toUpperCase() %>_RESPONSES.DELETE_SUCCESS
+    );
+    return res.status(response.status.code).json(response);
+  } catch (error) {
+    const response = genericResponse(statusCode, false, null, error.message);
+    return res.status(response.status.code).json(response);
+  }
+};
+
+module.exports = {
+  getAll<%= capitalize(plural(entityName)) %>,
+  getSingle<%= capitalize(entityName) %>,
+  create<%= capitalize(entityName) %>,
+  update<%= capitalize(entityName) %>,
+  delete<%= capitalize(entityName) %>,
+};
