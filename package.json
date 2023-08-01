@@ -1,10 +1,10 @@
 {
   "name": "express-genie",
-  "version": "1.0.0",
+  "version": "1.0.6",
   "description": "This library was made by Syed Abrar Ali and Jawad Sheikh for automating repetitive tasks.",
   "main": "index.js",
   "scripts": {
-    "postinstall": "node utility/addScript.js",
+    "postinstall": "node addScript.js",
     "setup": "node index.js"
   },
   "keywords": [],
