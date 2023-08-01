@@ -38,7 +38,7 @@ const createConfig = () => {
     `${__dirname}/../template/dbConfig.template.ejs`
   );
   createOrUpdateFile("./config/db.config.js", content);
-  console.log(`middleware created successfully.`);
+  console.log(`config created successfully.`);
 };
 const createConstants = () => {
   const content = createContent(
