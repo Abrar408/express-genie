@@ -1,7 +1,7 @@
 {
   "name": "express-genie",
-  "version": "1.3.3",
-  "description": "This library was made by Syed Abrar Ali and Jawad Sheikh for automating repetitive express routines.",
+  "version": "1.3.4",
+  "description": "This library was made by Syed Abrar Ali and Jawad Shaikh for automating repetitive express routines.",
   "main": "index.js",
   "scripts": {
     "postinstall": "node addScript.js",
@@ -9,7 +9,7 @@
   },
   "keywords": [],
   "author": "",
-  "license": "ISC",
+  "license": "MIT",
   "dependencies": {
     "ejs": "^3.1.9",
     "pluralize": "^8.0.0"

@@ -15,7 +15,6 @@ After installing express-genie run:
 ```bash
   npm run setup
 ```
-
 After running this command you should see the following files created in root directory:
 
 - server.js
@@ -31,6 +30,7 @@ and folders:
 - constants
 
 also your package.json file will also be updated to include scripts and dependencies and will look like:
+
 
 ```bash
   "scripts": {
@@ -55,15 +55,14 @@ also your package.json file will also be updated to include scripts and dependen
     "nodemon": "^2.0.22"
   }
 ```
-
-Run npm install to install the dependencies
+Run npm install to install the dependencies 
 
 ```bash
   npm install
 ```
 
 Now you are good to go and have a basic express structure ready.
-To create new routes and all its necessities run npm run setup [entityName] _without square brackets_
+To create new records and all its necessaties run npm run setup [entityName] *without square brackets*
 
 ```bash
   npm run setup [your entity name here]
@@ -80,3 +79,10 @@ and app.js file will be updated to include the new created route.
 
 For every new route just run the previous command with replacing the entity name.
 Enjoy!
+
+# License
+[MIT](https://github.com/expressjs/express/blob/HEAD/LICENSE)
+
+# People
+- [Syed Abrar Ali](https://github.com/Abrar408)
+- [Jawad Shaikh](https://github.com/jawad-shaikh)
