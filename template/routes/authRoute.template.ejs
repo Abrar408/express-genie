@@ -1,0 +1,40 @@
+const express = require("express");
+
+const validateRequest = require("../middleware/validateRequest.middleware");
+
+const {
+  signupSchema,
+  loginSchema,
+  forgotPasswordSchema,
+  resetPasswordSchema,
+} = require("../validations/auth.validation");
+
+const {
+  signup,
+  login,
+  forgotPassword,
+  resetPassword,
+} = require("../controllers/auth.controller");
+
+const router = express.Router();
+
+router.post(
+  "/signup",
+  validateRequest(signupSchema),
+  signup
+);
+
+router.post("/login", validateRequest(loginSchema), login);
+
+router.post(
+  "/forgot-password",
+  validateRequest(forgotPasswordSchema),
+  forgotPassword
+);
+router.post(
+  "/reset-password",
+  validateRequest(resetPasswordSchema),
+  resetPassword
+);
+
+module.exports = router;

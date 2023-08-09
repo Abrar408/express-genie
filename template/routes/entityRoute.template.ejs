@@ -1,9 +1,8 @@
 const express = require("express");
 
-const validateRequest = require("../../middleware/validateRequest.middleware");
+const validateRequest = require("../middleware/validateRequest.middleware");
 
-const <%= entityName %>CreateSchema = require("../../validations/<%= plural(entityName) %>/create.validation");
-const <%= entityName %>UpdateSchema = require("../../validations/<%= plural(entityName) %>/update.validation");
+const {<%= entityName %>CreateSchema, <%= entityName %>UpdateSchema} = require("../validations/<%= plural(entityName) %>.validations");
 
 const {
     getAll<%= capitalize(plural(entityName)) %>,
@@ -11,7 +10,7 @@ const {
     create<%= capitalize(entityName) %>,
     update<%= capitalize(entityName) %>,
     delete<%= capitalize(entityName) %>
-} = require("../../controllers/<%= entityName %>/<%= entityName %>.controller");
+} = require("../controllers/<%=  plural(entityName) %>.controllers");
 
 const router = express.Router();
 

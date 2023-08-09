@@ -17,7 +17,7 @@ const createMiddleware = () => {
   createOrUpdateFile("./middleware/reqLogger.middleware.js", content2);
   console.log(`middleware created successfully.`);
 };
-const createRoute = (entityName) => {
+const createAuthRoute = (entityName) => {
   const content = createContent(
     `${__dirname}/../template/route.template.ejs`,
     entityName

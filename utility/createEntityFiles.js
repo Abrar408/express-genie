@@ -5,66 +5,57 @@ const capitalize = require("./capitalize");
 const createOrUpdateFile = require("./createOrUpdateFile");
 const createContent = require("./createContent");
 
-const createMiddleware = () => {
-  const content1 = createContent(
-    `${__dirname}/../template/middleware/validateRequestMiddleware.template.ejs`
-  );
-  const content2 = createContent(
-    `${__dirname}/../template/middleware/reqLoggerMiddleware.template.ejs`
-  );
-  createOrUpdateFile("./middleware/validateRequest.middleware.js", content1);
-  createOrUpdateFile("./middleware/reqLogger.middleware.js", content2);
-  console.log(`middleware created successfully.`);
-};
 const createRoute = (entityName) => {
   const content = createContent(
-    `${__dirname}/../template/routes/route.template.ejs`,
+    `${__dirname}/../template/routes/entityRoute.template.ejs`,
     entityName
   );
-  createOrUpdateFile(`routes/${entityName}/${entityName}.routes.js`, content);
+  createOrUpdateFile(
+    `routes/${pluralize.plural(entityName)}.routes.js`,
+    content
+  );
   console.log(`${entityName} routes created successfully.`);
 };
 const createController = (entityName) => {
   const content = createContent(
-    `${__dirname}/../template/controllers/controller.template.ejs`,
+    `${__dirname}/../template/controllers/entityController.template.ejs`,
     entityName
   );
   createOrUpdateFile(
-    `controllers/${entityName}/${entityName}.controller.js`,
+    `controllers/${pluralize.plural(entityName)}.controllers.js`,
     content
   );
   console.log(`${entityName} controllers created successfully.`);
 };
 const createService = (entityName) => {
   const content = createContent(
-    `${__dirname}/../template/services/service.template.ejs`,
+    `${__dirname}/../template/services/entityService.template.ejs`,
     entityName
   );
   createOrUpdateFile(
-    `services/${entityName}/${entityName}.service.js`,
+    `services/${pluralize.plural(entityName)}.services.js`,
     content
   );
   console.log(`${entityName} services created successfully.`);
 };
 const createValidation = (entityName) => {
-  const validations = ["create", "update"];
-  validations.forEach((validation) => {
-    const content = createContent(
-      `${__dirname}/../template/validations/${validation}Validation.template.ejs`,
-      entityName
-    );
-    createOrUpdateFile(
-      `validations/${pluralize.plural(entityName)}/${validation}.validation.js`,
-      content
-    );
-  });
+  const content = createContent(
+    `${__dirname}/../template/validations/entityValidation.template.ejs`,
+    entityName
+  );
+  createOrUpdateFile(
+    `validations/${pluralize.plural(entityName)}.validations.js`,
+    content
+  );
   console.log(`${entityName} validations created successfully.`);
 };
 const updateApp = (entityName) => {
   const routeStringToSearch = ['");', ");"];
   const routeContentToAdd = [
-    `\nconst ${entityName}Routes = require("./routes/${entityName}/${entityName}.routes");`,
-    `\napp.use("/api/${entityName}", ${entityName}Routes);\n`,
+    `\nconst ${entityName}Routes = require("./routes/${pluralize.plural(
+      entityName
+    )}.routes");`,
+    `\napp.use("/api/${pluralize.plural(entityName)}", ${entityName}Routes);\n`,
   ];
 
   routeStringToSearch.forEach((string, index) => {
@@ -100,7 +91,6 @@ const updateConstants = (entityName) => {
 };
 
 module.exports = {
-  createMiddleware,
   createController,
   createRoute,
   createService,

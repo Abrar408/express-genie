@@ -1,4 +1,4 @@
-const <%= entityName %>Service = require("../../services/<%= entityName %>/<%= entityName %>.service");
+const <%= entityName %>Service = require("../services/<%= plural(entityName) %>.services");
 
 const {
   <%= entityName.toUpperCase() %>_RESPONSES,
@@ -8,12 +8,11 @@ const {
   createSuccessResponse,
   updateSuccessResponse,
   conflictErrorResponse,
-} = require("../../constants/responses");
+} = require("../constants/responses");
 
 const getAll<%= capitalize(plural(entityName)) %> = async (req, res) => {
   try {
     const result = await <%= entityName %>Service.getAll<%= capitalize(plural(entityName)) %>();
-
 
     const response = okResponse(result);
     return res.status(response.status.code).json(response);

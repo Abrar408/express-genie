@@ -2,10 +2,11 @@ const {
   createApp,
   createServer,
   createEnv,
+  createMiddleware,
+  createConfig,
   createConstants,
   addScripts,
   addDependencies,
-  createConfig,
 } = require("./utility/createSetupFiles");
 
 const {

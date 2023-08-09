@@ -21,6 +21,17 @@ const createEnv = () => {
   createOrUpdateFile("./.env.staging", content);
   console.log(`envs created successfully.`);
 };
+const createMiddleware = () => {
+  const content1 = createContent(
+    `${__dirname}/../template/middleware/validateRequestMiddleware.template.ejs`
+  );
+  const content2 = createContent(
+    `${__dirname}/../template/middleware/reqLoggerMiddleware.template.ejs`
+  );
+  createOrUpdateFile("./middleware/validateRequest.middleware.js", content1);
+  createOrUpdateFile("./middleware/reqLogger.middleware.js", content2);
+  console.log(`middleware created successfully.`);
+};
 const createConfig = () => {
   const content = createContent(
     `${__dirname}/../template/dbConfig.template.ejs`
@@ -83,6 +94,7 @@ module.exports = {
   createApp,
   createServer,
   createEnv,
+  createMiddleware,
   createConfig,
   createConstants,
   addScripts,
