@@ -7,10 +7,10 @@ If this is a brand new project, make sure to create a package.json first with th
 Installation is done using the npm install command:
 
 ```bash
-  npm install express-genie
+  npm install express-genie --save-dev
 ```
 
-After installing express-genie run:
+After installing, run:
 
 ```bash
   npm run setup
@@ -18,7 +18,7 @@ After installing express-genie run:
 
 After running this command you should see the following files created in root directory:
 
-- server.js
+- server.js //entry point for project
 - app.js
 - .env
 - .env.development
@@ -34,7 +34,6 @@ also your package.json file will also be updated to include scripts and dependen
 
 ```bash
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
     "setup": "node ./node_modules/express-genie/index.js",
     "dev": "set NODE_ENV=development&& nodemon server.js",
     "stage": "set NODE_ENV=staging&& nodemon server.js",
@@ -44,7 +43,6 @@ also your package.json file will also be updated to include scripts and dependen
 
 ```bash
 "dependencies": {
-    "express-genie": "^1.3.0",
     "joi": "^17.9.1",
     "express": "^4.18.2",
     "cors": "^2.8.5",
@@ -52,6 +50,7 @@ also your package.json file will also be updated to include scripts and dependen
     "mysql2": "^3.1.2"
   },
   "devDependencies": {
+    "express-genie": "^1.3.0",
     "nodemon": "^2.0.22"
   }
 ```
@@ -63,7 +62,7 @@ Run npm install to install the dependencies
 ```
 
 Now you are good to go and have a basic express structure ready.
-To create new records and all its necessaties run npm run setup [entityName] _without square brackets_
+To create new records and all its necessities run npm run setup [entityName] _without square brackets_
 
 ```bash
   npm run setup [your entity name here]
@@ -71,10 +70,10 @@ To create new records and all its necessaties run npm run setup [entityName] _wi
 
 Four new folders will be created:
 
-- routes
-- controllers
-- services
-- validations
+- routes // for route handling
+- controllers // for handling response
+- services // for business logic
+- validations // incoming request validations
 
 and app.js file will be updated to include the new created route.
 
@@ -90,7 +89,7 @@ Enjoy!
 - [Syed Abrar Ali](https://github.com/Abrar408)
 - [Jawad Shaikh](https://github.com/jawad-shaikh)
 
-# Contact
+# Contribute
 
 Feel free to contact us if you find any bugs or have any suggestions
 

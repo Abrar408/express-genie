@@ -3,6 +3,11 @@ const responses = {
       INVALID_REQUEST: "Request invalid.",
       TOKEN_NOT_PROVIDED: "Token not provided.",
       INVALID_TOKEN: "Token invalid or expired.",
+      UNAUTHORIZED: "User is not authorized to perform this task.",
+      INVALID_OTP: "Invalid OTP.",
+      OTP_EXPIRED: "OTP has expired.",
+      INCORRECT_CREDENTIALS: "Invalid credentials.",
+      INCORRECT_OLD_PASSWORD: "Old Password does not match.",
       CREATE_UNSUCCESSFUL: "Could not create new record.",
       UPDATE_UNSUCCESSFUL: "Could not update record.",
       DELETE_UNSUCCESSFUL: "Could not delete record.",
@@ -20,6 +25,94 @@ const responses = {
           success: success,
         },
         data: data,
+        error: error,
+        message: message,
+      };
+    },
+    badRequestResponse: (error = null, message = null) => {
+      return {
+        status: {
+          code: 400,
+          success: false,
+        },
+        data: null,
+        error: error,
+        message: message,
+      };
+    },
+    conflictErrorResponse: (error = null, message = null) => {
+      return {
+        status: {
+          code: 409,
+          success: false,
+        },
+        data: null,
+        error: error,
+        message: message,
+      };
+    },
+    forbiddenResponse: (error = null, message = null) => {
+      return {
+        status: {
+          code: 401,
+          success: false,
+        },
+        data: null,
+        error: error,
+        message: message,
+      };
+    },
+    okResponse: (data = null, message = null) => {
+      return {
+        status: {
+          code: 200,
+          success: true,
+        },
+        data: data,
+        error: null,
+        message: message,
+      };
+    },
+    createSuccessResponse: (data = null, message = null) => {
+      return {
+        status: {
+          code: 201,
+          success: true,
+        },
+        data: data,
+        error: null,
+        message: message,
+      };
+    },
+    updateSuccessResponse: (message = null) => {
+      return {
+        status: {
+          code: 204,
+          success: true,
+        },
+        data: null,
+        error: null,
+        message: null,
+      };
+    },
+    deleteSuccessResponse: () => {
+      return {
+        status: {
+          code: 204,
+          success: true,
+        },
+        data: null,
+        error: null,
+        message: null,
+      };
+    },
+    serverErrorResponse: (error = null, message = null) => {
+      return {
+        status: {
+          code: 500,
+          success: false,
+        },
+        data: null,
         error: error,
         message: message,
       };

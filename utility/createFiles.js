@@ -27,10 +27,14 @@ const createEnv = () => {
   console.log(`envs created successfully.`);
 };
 const createMiddleware = () => {
-  const content = createContent(
+  const content1 = createContent(
     `${__dirname}/../template/validateRequestMiddleware.template.ejs`
   );
-  createOrUpdateFile("./middleware/validateRequest.middleware.js", content);
+  const content2 = createContent(
+    `${__dirname}/../template/reqLoggerMiddleware.template.ejs`
+  );
+  createOrUpdateFile("./middleware/validateRequest.middleware.js", content1);
+  createOrUpdateFile("./middleware/reqLogger.middleware.js", content2);
   console.log(`middleware created successfully.`);
 };
 const createConfig = () => {
@@ -134,7 +138,7 @@ const addScripts = () => {
   if (!userPackageJson.scripts) {
     userPackageJson.scripts = {};
   }
-
+  delete userPackageJson.scripts["test"];
   userPackageJson.scripts["dev"] =
     "set NODE_ENV=development&& nodemon server.js";
   userPackageJson.scripts["stage"] = "set NODE_ENV=staging&& nodemon server.js";
