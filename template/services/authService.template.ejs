@@ -10,13 +10,13 @@ const {
   getTimeDifferenceInMinutes,
 } = require("../helpers/otpHelpers");
 
-const signup = async ({email,password}) => {
-  
+const signup = async ({ email, password }) => {
   try {
     const hashedPassword = await bcrypt.hash(password, 10);
-    await pool.query(
-        `INSERT INTO users(email,password) VALUES(?,?)`,[email,hashedPassword]
-    )
+    await pool.query(`INSERT INTO users(email,password) VALUES(?,?)`, [
+      email,
+      hashedPassword,
+    ]);
   } catch (err) {
     throw new Error(err);
   }
@@ -24,9 +24,9 @@ const signup = async ({email,password}) => {
 
 const login = async ({ email, password }) => {
   try {
-    const [[user]] = await pool.query(
-        `SELECT * FROM users WHERE email = ?`,[email]
-    )
+    const [[user]] = await pool.query(`SELECT * FROM users WHERE email = ?`, [
+      email,
+    ]);
 
     if (!user) {
       return { error: ERROR_RESPONSES.INCORRECT_CREDENTIALS };
@@ -52,9 +52,9 @@ const login = async ({ email, password }) => {
 
 const forgotPassword = async ({ email }) => {
   try {
-    const [[user]] = await pool.query(
-        `SELECT * FROM users WHERE email = ?`,[email]
-    )
+    const [[user]] = await pool.query(`SELECT * FROM users WHERE email = ?`, [
+      email,
+    ]);
 
     if (!user) {
       return { error: ERROR_RESPONSES.INCORRECT_CREDENTIALS };
@@ -62,9 +62,7 @@ const forgotPassword = async ({ email }) => {
 
     const otp = generateOTP(8);
 
-    await pool.query(
-        `UPDATE users SET otp = ? WHERE id = ?`,[otp,user.id]
-    )
+    await pool.query(`UPDATE users SET otp = ? WHERE id = ?`, [otp, user.id]);
   } catch (err) {
     throw new Error(err);
   }
@@ -72,9 +70,9 @@ const forgotPassword = async ({ email }) => {
 
 const resetPassword = async ({ email, password, otp }) => {
   try {
-    const [[user]] = await pool.query(
-        `SELECT * FROM users WHERE email = ?`,[email]
-    )
+    const [[user]] = await pool.query(`SELECT * FROM users WHERE email = ?`, [
+      email,
+    ]);
 
     if (!user) {
       return { error: ERROR_RESPONSES.INCORRECT_CREDENTIALS };
@@ -91,9 +89,10 @@ const resetPassword = async ({ email, password, otp }) => {
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);
-    await pool.query(
-        `UPDATE users SET password = ? WHERE id = ?`,[hashedPassword,user.id]
-    )
+    await pool.query(`UPDATE users SET password = ? WHERE id = ?`, [
+      hashedPassword,
+      user.id,
+    ]);
   } catch (err) {
     throw new Error(err);
   }

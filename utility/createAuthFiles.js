@@ -1,8 +1,6 @@
 const fs = require("fs");
 const path = require("path");
-const pluralize = require("pluralize");
 
-const capitalize = require("./capitalize");
 const createOrUpdateFile = require("./createOrUpdateFile");
 const createContent = require("./createContent");
 
@@ -11,51 +9,46 @@ const createAuthMiddleware = () => {
     `${__dirname}/../template/middleware/verifyTokenMiddleware.template.ejs`
   );
   createOrUpdateFile("./middleware/verifyToken.middleware.js", content);
-  console.log(`middleware created successfully.`);
+  console.log(`auth middleware created successfully.`);
 };
-const createAuthRoute = (entityName) => {
+const createAuthRoute = () => {
   const content = createContent(
-    `${__dirname}/../template/routes/authRoute.template.ejs`,
-    entityName
+    `${__dirname}/../template/routes/authRoute.template.ejs`
   );
   createOrUpdateFile(`routes/auth.routes.js`, content);
-  console.log(`${entityName} routes created successfully.`);
+  console.log(`auth routes created successfully.`);
 };
-const createAuthController = (entityName) => {
+const createAuthController = () => {
   const content = createContent(
-    `${__dirname}/../template/controllers/authController.template.ejs`,
-    entityName
+    `${__dirname}/../template/controllers/authController.template.ejs`
   );
   createOrUpdateFile(`controllers/auth.controllers.js`, content);
-  console.log(`${entityName} controllers created successfully.`);
+  console.log(`auth controllers created successfully.`);
 };
-const createAuthService = (entityName) => {
+const createAuthService = () => {
   const content = createContent(
-    `${__dirname}/../template/services/authService.template.ejs`,
-    entityName
+    `${__dirname}/../template/services/authService.template.ejs`
   );
   createOrUpdateFile(`services/auth.services.js`, content);
-  console.log(`${entityName} services created successfully.`);
+  console.log(`auth services created successfully.`);
 };
-const createAuthValidation = (entityName) => {
+const createAuthValidation = () => {
   const content = createContent(
-    `${__dirname}/../template/validations/authValidation.template.ejs`,
-    entityName
+    `${__dirname}/../template/validations/authValidation.template.ejs`
   );
   createOrUpdateFile(`validations/auth.validations.js`, content);
 
-  console.log(`${entityName} validations created successfully.`);
+  console.log(`auth validations created successfully.`);
 };
-const createAuthHelpers = (entityName) => {
+const createAuthHelpers = () => {
   const content = createContent(
-    `${__dirname}/../template/helpers/otpHelpers.template.ejs`,
-    entityName
+    `${__dirname}/../template/helpers/otpHelpers.template.ejs`
   );
   createOrUpdateFile(`helpers/otpHelpers.js`, content);
 
-  console.log(`${entityName} helpers created successfully.`);
+  console.log(`auth helpers created successfully.`);
 };
-const updateAuthApp = (entityName) => {
+const updateAuthApp = () => {
   const routeStringToSearch = ['");', ");"];
   const routeContentToAdd = [
     `\nconst authRoutes = require("./routes/auth.routes");`,
@@ -74,7 +67,7 @@ const updateAuthApp = (entityName) => {
     createOrUpdateFile(`app.js`, firstPart + additionalLine + secondPart);
   });
 };
-const updateAuthConstants = (entityName) => {
+const updateAuthConstants = () => {
   const appJs = fs.readFileSync("constants/responses.js", "utf8");
   const string = "{";
   const index = appJs.indexOf(string);

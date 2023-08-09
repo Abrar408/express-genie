@@ -62,22 +62,42 @@ Run npm install to install the dependencies
 ```
 
 Now you are good to go and have a basic express structure ready.
-To create new records and all its necessities run npm run setup [entityName] _without square brackets_
 
-```bash
-  npm run setup [your entity name here]
-```
+Run **npm run setup auth** to create auth routes and all its folders.
 
-Four new folders will be created:
+Five new folders will be created,
 
 - routes //_for route handling_
 - controllers //_for handling response_
 - services //_for business logic_
 - validations //_incoming request validations_
+- helpers //_helping functions_
 
 and app.js file will be updated to include the new created route.
+Remember to install the new dependencies added in package.json file by running **npm i**
 
-For every new route just run the previous command with replacing the entity name.
+Auth will have four routes
+
+- sign-up
+- login
+- forgot-password
+- reset-password
+
+To create a new entity route and all its respective folders run **npm run setup [entityName]** _without square brackets_
+
+```bash
+  npm run setup [your entity name here]
+```
+
+Every entity route will have five routes
+
+- get-all
+- get-single
+- create
+- update
+- delete
+
+For every new entity route just run the previous command with replacing the entity name.
 Enjoy!
 
 ## Authors
@@ -88,11 +108,10 @@ Enjoy!
 ## Contributing
 
 Contributions are always welcome!
-
 Feel free to contact us if you find any bugs or have any suggestions
 
-- abrar123789ali@gmail.com
 - shaikhjawad314@gmail.com
+- abrar123789ali@gmail.com
 
 ## License
 

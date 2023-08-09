@@ -4,10 +4,7 @@ const signupSchema = Joi.object({
   query: Joi.object({}),
   params: Joi.object({}),
   body: Joi.object({
-    username: Joi.string().max(50).required(),
     email: Joi.string().email().max(100).required(),
-    contact: Joi.string().max(20).required(),
-    address: Joi.string().max(100).required(),
     password: Joi.string().max(20).required(),
   }),
 });
