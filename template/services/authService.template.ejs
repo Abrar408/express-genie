@@ -1,0 +1,107 @@
+const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
+
+const pool = require("../config/db.config");
+
+const { ERROR_RESPONSES } = require("../constants/responses");
+
+const {
+  generateOTP,
+  getTimeDifferenceInMinutes,
+} = require("../helpers/otpHelpers");
+
+const signup = async ({email,password}) => {
+  
+  try {
+    const hashedPassword = await bcrypt.hash(password, 10);
+    await pool.query(
+        `INSERT INTO users(email,password) VALUES(?,?)`,[email,hashedPassword]
+    )
+  } catch (err) {
+    throw new Error(err);
+  }
+};
+
+const login = async ({ email, password }) => {
+  try {
+    const [[user]] = await pool.query(
+        `SELECT * FROM users WHERE email = ?`,[email]
+    )
+
+    if (!user) {
+      return { error: ERROR_RESPONSES.INCORRECT_CREDENTIALS };
+    }
+
+    const isMatch = await bcrypt.compare(password, user.password);
+
+    if (!isMatch) {
+      return { error: ERROR_RESPONSES.INCORRECT_CREDENTIALS };
+    }
+
+    const token = jwt.sign(
+      {
+        userId: user.id,
+      },
+      process.env.JWT_SECRET_KEY
+    );
+    return { token };
+  } catch (err) {
+    throw new Error(err);
+  }
+};
+
+const forgotPassword = async ({ email }) => {
+  try {
+    const [[user]] = await pool.query(
+        `SELECT * FROM users WHERE email = ?`,[email]
+    )
+
+    if (!user) {
+      return { error: ERROR_RESPONSES.INCORRECT_CREDENTIALS };
+    }
+
+    const otp = generateOTP(8);
+
+    await pool.query(
+        `UPDATE users SET otp = ? WHERE id = ?`,[otp,user.id]
+    )
+  } catch (err) {
+    throw new Error(err);
+  }
+};
+
+const resetPassword = async ({ email, password, otp }) => {
+  try {
+    const [[user]] = await pool.query(
+        `SELECT * FROM users WHERE email = ?`,[email]
+    )
+
+    if (!user) {
+      return { error: ERROR_RESPONSES.INCORRECT_CREDENTIALS };
+    }
+
+    const utcTimeDifference = getTimeDifferenceInMinutes(user?.updated_at);
+
+    if (utcTimeDifference > 5) {
+      return { error: ERROR_RESPONSES.OTP_EXPIRED };
+    }
+
+    if (user?.otp != otp) {
+      return { error: ERROR_RESPONSES.INVALID_OTP };
+    }
+
+    const hashedPassword = await bcrypt.hash(password, 10);
+    await pool.query(
+        `UPDATE users SET password = ? WHERE id = ?`,[hashedPassword,user.id]
+    )
+  } catch (err) {
+    throw new Error(err);
+  }
+};
+
+module.exports = {
+  signup,
+  login,
+  forgotPassword,
+  resetPassword,
+};

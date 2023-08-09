@@ -1,6 +1,6 @@
 {
   "name": "express-genie",
-  "version": "2.1.1",
+  "version": "2.1.2",
   "description": "This library was made for automating repetitive express routines. Made by Syed Abrar Ali and Jawad Shaikh",
   "main": "index.js",
   "scripts": {

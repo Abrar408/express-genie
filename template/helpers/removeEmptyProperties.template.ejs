@@ -1,0 +1,11 @@
+const removeEmptyProperties = (data) => {
+    for (let prop in data) {
+      if (data[prop] === "" || data[prop] === undefined || data[prop] === null) {
+        delete data[prop];
+      }
+    }
+    return data;
+  };
+  
+  module.exports = removeEmptyProperties;
+  

@@ -18,6 +18,18 @@ const {
   updateConstants,
 } = require("./utility/createEntityFiles");
 
+const {
+  createAuthRoute,
+  createAuthMiddleware,
+  createAuthController,
+  createAuthValidation,
+  createAuthService,
+  updateAuthApp,
+  updateAuthConstants,
+  addAuthDependencies,
+  createAuthHelpers,
+} = require("./utility/createAuthFiles");
+
 const checkFileExists = require("./utility/checkFileExists");
 
 const entityName = process.argv[2];
@@ -32,6 +44,17 @@ if (!entityName) {
   addScripts();
   addDependencies();
 } else if (entityName === "auth") {
+  createAuthRoute();
+  createAuthMiddleware();
+  createAuthValidation();
+  createAuthController();
+  createAuthService();
+  createAuthHelpers();
+
+  updateAuthApp();
+  updateAuthConstants();
+
+  addAuthDependencies();
 } else {
   if (!checkFileExists("./app.js")) return;
 

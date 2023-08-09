@@ -1,0 +1,75 @@
+const authService = require("../services/auth.services");
+
+const {
+  createSuccessResponse,
+  serverErrorResponse,
+  okResponse,
+  badRequestResponse,
+  updateSuccessResponse,
+} = require("../constants/responses");
+
+const signup = async (req, res) => {
+  try {
+    await authService.signup(req.body);
+
+    const response = createSuccessResponse();
+    return res.status(response.status.code).json(response);
+  } catch (error) {
+    const response = serverErrorResponse(error.message);
+    return res.status(response.status.code).json(response);
+  }
+};
+
+const login = async (req, res) => {
+  try {
+    const user = await authService.login(req.body);
+
+    if (user?.error) {
+      const response = badRequestResponse(user.error);
+      return res.status(response.status.code).json(response);
+    }
+    const response = okResponse(user);
+    return res.status(response.status.code).json(response);
+  } catch (error) {
+    const response = serverErrorResponse(error.message);
+    return res.status(response.status.code).json(response);
+  }
+};
+
+const forgotPassword = async (req, res) => {
+  try {
+    const user = await authService.forgotPassword(req.body);
+
+    if (user?.error) {
+      const response = badRequestResponse(user.error);
+      return res.status(response.status.code).json(response);
+    }
+    const response = updateSuccessResponse();
+    return res.status(response.status.code).json(response);
+  } catch (error) {
+    const response = serverErrorResponse(error.message);
+    return res.status(response.status.code).json(response);
+  }
+};
+
+const resetPassword = async (req, res) => {
+  try {
+    const user = await authService.resetPassword(req.body);
+
+    if (user?.error) {
+      const response = badRequestResponse(user.error);
+      return res.status(response.status.code).json(response);
+    }
+    const response = okResponse();
+    return res.status(response.status.code).json(response);
+  } catch (error) {
+    const response = serverErrorResponse(error.message);
+    return res.status(response.status.code).json(response);
+  }
+};
+module.exports = {
+  signup,
+  login,
+  forgotPassword,
+  resetPassword,
+};
