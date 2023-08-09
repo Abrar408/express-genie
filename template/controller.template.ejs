@@ -8,7 +8,7 @@ const {
   createSuccessResponse,
   updateSuccessResponse,
   conflictErrorResponse,
-} = require("../constants/responses");
+} = require("../../constants/responses");
 
 const getAll<%= capitalize(plural(entityName)) %> = async (req, res) => {
   try {

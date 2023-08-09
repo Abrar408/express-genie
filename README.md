@@ -1,4 +1,6 @@
-# express-genie
+# express-genie ![Logo](./assets/lamp.png)
+
+# ![Logo](./assets/lamp.png)
 
 This is a Node.js module available through the npm registry.
 
@@ -18,7 +20,7 @@ After installing, run:
 
 After running this command you should see the following files created in root directory:
 
-- server.js //entry point for project
+- server.js //_entry point for project_
 - app.js
 - .env
 - .env.development
@@ -70,28 +72,30 @@ To create new records and all its necessities run npm run setup [entityName] _wi
 
 Four new folders will be created:
 
-- routes // for route handling
-- controllers // for handling response
-- services // for business logic
-- validations // incoming request validations
+- routes //_for route handling_
+- controllers //_for handling response_
+- services //_for business logic_
+- validations //_incoming request validations_
 
 and app.js file will be updated to include the new created route.
 
 For every new route just run the previous command with replacing the entity name.
 Enjoy!
 
-# License
-
-[MIT](https://github.com/expressjs/express/blob/HEAD/LICENSE)
-
-# People
+## Authors
 
 - [Syed Abrar Ali](https://github.com/Abrar408)
 - [Jawad Shaikh](https://github.com/jawad-shaikh)
 
-# Contribute
+## Contributing
+
+Contributions are always welcome!
 
 Feel free to contact us if you find any bugs or have any suggestions
 
 - abrar123789ali@gmail.com
 - shaikhjawad314@gmail.com
+
+## License
+
+[MIT](https://choosealicense.com/licenses/mit/)

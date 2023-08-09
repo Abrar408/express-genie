@@ -6,9 +6,6 @@ const capitalize = require("./capitalize");
 const createOrUpdateFile = require("./createOrUpdateFile");
 const createContent = require("./createContent");
 
-const validations = ["create", "update"];
-const routeStringToSearch = ['");', ");"];
-
 const createApp = () => {
   const content = createContent(`${__dirname}/../template/app.template.ejs`);
   createOrUpdateFile("./app.js", content);
@@ -82,6 +79,7 @@ const createService = (entityName) => {
   console.log(`${entityName} services created successfully.`);
 };
 const createValidation = (entityName) => {
+  const validations = ["create", "update"];
   validations.forEach((validation) => {
     const content = createContent(
       `${__dirname}/../template/${validation}Validation.template.ejs`,
@@ -95,6 +93,7 @@ const createValidation = (entityName) => {
   console.log(`${entityName} validations created successfully.`);
 };
 const updateApp = (entityName) => {
+  const routeStringToSearch = ['");', ");"];
   const routeContentToAdd = [
     `\nconst ${entityName}Routes = require("./routes/${entityName}/${entityName}.routes");`,
     `\napp.use("/api/${entityName}", ${entityName}Routes);\n`,
