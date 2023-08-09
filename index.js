@@ -2,18 +2,20 @@ const {
   createApp,
   createServer,
   createEnv,
-  createMiddleware,
+  createConstants,
+  addScripts,
+  addDependencies,
+  createConfig,
+} = require("./utility/createSetupFiles");
+
+const {
   createRoute,
   createController,
   createService,
   createValidation,
   updateApp,
-  createConstants,
   updateConstants,
-  addScripts,
-  addDependencies,
-  createConfig,
-} = require("./utility/createFiles");
+} = require("./utility/createEntityFiles");
 
 const checkFileExists = require("./utility/checkFileExists");
 
@@ -28,6 +30,7 @@ if (!entityName) {
   createConstants();
   addScripts();
   addDependencies();
+} else if (entityName === "auth") {
 } else {
   if (!checkFileExists("./app.js")) return;
 
