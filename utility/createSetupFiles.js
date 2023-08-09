@@ -53,7 +53,6 @@ const addScripts = () => {
   if (!userPackageJson.scripts) {
     userPackageJson.scripts = {};
   }
-  delete userPackageJson.scripts["test"];
   userPackageJson.scripts["dev"] =
     "set NODE_ENV=development&& nodemon server.js";
   userPackageJson.scripts["stage"] = "set NODE_ENV=staging&& nodemon server.js";
@@ -76,13 +75,19 @@ const addDependencies = () => {
     userPackageJson.devDependencies = {};
   }
 
-  userPackageJson.dependencies["joi"] = "^17.9.1";
-  userPackageJson.dependencies["express"] = "^4.18.2";
-  userPackageJson.dependencies["cors"] = "^2.8.5";
-  userPackageJson.dependencies["dotenv"] = "^16.0.3";
-  userPackageJson.dependencies["mysql2"] = "^3.1.2";
+  if (!userPackageJson.dependencies.joi)
+    userPackageJson.dependencies["joi"] = "^17.9.1";
+  if (!userPackageJson.dependencies.express)
+    userPackageJson.dependencies["express"] = "^4.18.2";
+  if (!userPackageJson.dependencies.cors)
+    userPackageJson.dependencies["cors"] = "^2.8.5";
+  if (!userPackageJson.dependencies.dotenv)
+    userPackageJson.dependencies["dotenv"] = "^16.0.3";
+  if (!userPackageJson.dependencies.mysql2)
+    userPackageJson.dependencies["mysql2"] = "^3.1.2";
 
-  userPackageJson.devDependencies["nodemon"] = "^2.0.22";
+  if (!userPackageJson.dependencies.nodemon)
+    userPackageJson.devDependencies["nodemon"] = "^2.0.22";
 
   fs.writeFileSync(
     userPackageJsonPath,

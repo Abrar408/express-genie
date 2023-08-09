@@ -55,6 +55,7 @@ also your package.json file will also be updated to include scripts and dependen
   }
 ```
 
+**npm run setup** will only work once, meaning if you have run it once, it will not have any effect the next time you run this command.
 Run npm install to install the dependencies
 
 ```bash

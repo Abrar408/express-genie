@@ -35,12 +35,13 @@ const checkFileExists = require("./utility/checkFileExists");
 const entityName = process.argv[2];
 
 if (!entityName) {
-  createApp();
-  createServer();
-  createEnv();
-  createMiddleware();
-  createConfig();
-  createConstants();
+  if (!checkFileExists("./app.js")) createApp();
+  if (!checkFileExists("./server.js")) createServer();
+  if (!checkFileExists("./.env")) createEnv();
+  if (!checkFileExists("./middleware")) createMiddleware();
+  if (!checkFileExists("./config")) createConfig();
+  if (!checkFileExists("./constants")) createConstants();
+
   addScripts();
   addDependencies();
 } else if (entityName === "auth") {
