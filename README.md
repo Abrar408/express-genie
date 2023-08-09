@@ -1,6 +1,6 @@
-# express-genie ![Logo](./assets/lamp.png)
+# express-genie ![Logo](https://github.com/Abrar408/express-genie/blob/main/assets/lamp.png)
 
-# ![Logo](./assets/lamp.png)
+# ![Logo](https://github.com/Abrar408/express-genie/blob/main/assets/lamp.png)
 
 This is a Node.js module available through the npm registry.
 
